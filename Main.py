@@ -7,7 +7,7 @@
 rows, cols = (10, 10)
 
 # make grid
-grid = [[0]*cols]*rows
+grid = [[0 for i in range(cols)]for j in range(rows)]
 
 # place bot for testing 
 grid [0][0] = "bot"
