@@ -3,18 +3,31 @@
 #Title: Main file
 #About: To be the main file where the program will initially run
 
-# define the row = 10 and cols = 10, so 100 square grid
-rows, cols = (10, 10)
+#Imports
+import pygame
+pygame.init()
 
-# make grid
-grid = [[" " for i in range(cols)] for j in range(rows)]
+# Set window size + caption
+win = pygame.display.set_mode((500, 500))
+pygame.display.set_caption("First game")
 
-# Add the Tagger
-grid[0][0] = "T"
+# Set player attributes 
+x = 50
+y = 50
+width = 40
+height = 60
+vel = 5
 
-# Add Runner
-grid[9][9] = "R"
+# Start state 
+run = True
 
-#display grid in terminal
-for row in grid:
-    print(row)
+# event loop to track game 
+while run:
+    pygame.time.delay(100)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
+#End 
+pygame.quit()
