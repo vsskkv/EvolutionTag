@@ -28,6 +28,10 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+    
+    # Draw rect
+    pygame.draw.rect(win, (255, 0, 0), (x, y, width, height))
+    pygame.display.update()
 
 #End 
 pygame.quit()
