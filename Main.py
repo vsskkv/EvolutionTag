@@ -18,18 +18,41 @@ clock = pygame.time.Clock()
 
 # chaser object 
 class player(object):
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, end):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.vel = 5
+        self.end = end
+        self.path = [self.x, self.end]
+
+    def draw(self, win):
+        self.move()
+        pygame.draw.rect(win, (0, 255, 0), (self.x, self.y, self.width, self.height))
+        
+    def move(self):
+        if self.vel > 0:
+            if self.x + self.vel < self.path[1]:
+                self.x += self.vel
+            else:
+                self.vel = self.vel * -1
+        else:
+            if self.x-self.vel > self.path[0]:
+                self.x += self.vel
+            else:
+                self.vel = self.vel * -1        
+
+        
 
 # Start state 
 run = True
 
 # Instaniate player(Chaser)
-chaser = player(20, 20, 10, 10)
+chaser = player(20, 20, 10, 10, widthScreen)
+
+# Instaniate player(Runner)
+runner = player(40, 40, 10, 10, 460)
 
 # Event loop to track game 
 while run:
@@ -54,6 +77,7 @@ while run:
     win.fill((0,0,0))
     # Draw rect
     pygame.draw.rect(win, (255, 0, 0), (chaser.x, chaser.y, chaser.width, chaser.height))
+    runner.draw(win)
     pygame.display.update()
 
 #End 
