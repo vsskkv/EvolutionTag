@@ -24,35 +24,37 @@ class player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 3
+        self.velx = 3
+        self.vely = 3
         self.end = end
         self.path = [self.x, self.end]
 
     def draw(self, win):
         self.move()
         pygame.draw.rect(win, (0, 255, 0), (self.x, self.y, self.width, self.height))
-        
+    
+    # Move the     
     def move(self):
-        if(RandMVMT() == 1 and self.vel > 0):
-            if self.y + self.vel < self.path[1]:
-                self.y += self.vel
+        if(RandMVMT() == 1 and self.vely > 0):
+            if self.y + self.vely < self.path[1]:
+                self.y += self.vely
             else:
-                self.vel = self.vel * -1
-        if(RandMVMT() == 2 and self.vel > 0):
-            if self.x + self.vel < self.path[1]:
-                self.x += self.vel
+                self.vely = self.vely * -1
+        if(RandMVMT() == 2 and self.velx > 0):
+            if self.x + self.velx < self.path[1]:
+                self.x += self.velx
             else:
-                self.vel = self.vel * -1
-        if(RandMVMT() == 3 and self.vel < heightScreen):
-            if self.y-self.vel > self.path[0]:
-                self.y += self.vel
+                self.velx = self.velx * -1
+        if(RandMVMT() == 3 and self.vely < heightScreen):
+            if self.y-self.vely > self.path[0]:
+                self.y += self.vely
             else:
-                self.vel = self.vel * -1
-        if(RandMVMT() == 4 and self.vel < widthScreen):
-            if self.x-self.vel > self.path[0]:
-                self.x += self.vel
+                self.vely = self.vely * -1
+        if(RandMVMT() == 4 and self.velx < widthScreen):
+            if self.x-self.velx > self.path[0]:
+                self.x += self.velx
             else:
-                self.vel = self.vel * -1
+                self.velx = self.velx * -1
                     
 
 # Rand number between 1-4
