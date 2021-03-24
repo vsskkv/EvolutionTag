@@ -4,6 +4,7 @@
 #About: To be the main file where the program will initially run
 
 #Imports
+import random
 import pygame
 pygame.init()
 
@@ -23,7 +24,7 @@ class player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 5
+        self.vel = 3
         self.end = end
         self.path = [self.x, self.end]
 
@@ -32,18 +33,33 @@ class player(object):
         pygame.draw.rect(win, (0, 255, 0), (self.x, self.y, self.width, self.height))
         
     def move(self):
-        if self.vel > 0:
+        if(RandMVMT() == 1 and self.vel > 0):
+            if self.y + self.vel < self.path[1]:
+                self.y += self.vel
+            else:
+                self.vel = self.vel * -1
+        if(RandMVMT() == 2 and self.vel > 0):
             if self.x + self.vel < self.path[1]:
                 self.x += self.vel
             else:
                 self.vel = self.vel * -1
-        else:
+        if(RandMVMT() == 3 and self.vel < heightScreen):
+            if self.y-self.vel > self.path[0]:
+                self.y += self.vel
+            else:
+                self.vel = self.vel * -1
+        if(RandMVMT() == 4 and self.vel < widthScreen):
             if self.x-self.vel > self.path[0]:
                 self.x += self.vel
             else:
-                self.vel = self.vel * -1        
+                self.vel = self.vel * -1
+                    
 
-        
+# Rand number between 1-4
+# 1=up, 2=right, 3=down, 4=left
+def RandMVMT():
+    return random.randint(1,4)
+            
 
 # Start state 
 run = True
