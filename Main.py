@@ -4,6 +4,7 @@
 #About: To be the main file where the program will initially run
 
 #Imports
+import random
 import pygame
 pygame.init()
 
@@ -16,43 +17,66 @@ pygame.display.set_caption("First game")
 # Clock
 clock = pygame.time.Clock()
 
-# chaser object 
+# player object 
 class player(object):
-    def __init__(self, x, y, width, height, end):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 5
-        self.end = end
-        self.path = [self.x, self.end]
+        self.velx = 3
+        self.vely = 3
 
     def draw(self, win):
         self.move()
-        pygame.draw.rect(win, (0, 255, 0), (self.x, self.y, self.width, self.height))
-        
+        self.rect = pygame.draw.rect(win, (0, 255, 0), (self.x, self.y, self.width, self.height))
+    
+    # Move the chaser around randomly     
     def move(self):
-        if self.vel > 0:
-            if self.x + self.vel < self.path[1]:
-                self.x += self.vel
-            else:
-                self.vel = self.vel * -1
-        else:
-            if self.x-self.vel > self.path[0]:
-                self.x += self.vel
-            else:
-                self.vel = self.vel * -1        
+        rand = random.randint(1,4)
+        if(rand == 1 and self.vely + self.y < heightScreen - 11):
+            self.y += self.vely
+        if(rand == 2 and self.velx + self.x < widthScreen - 11):
+            self.x += self.velx
+        if(rand == 3 and self.y - self.vely > 0):
+            self.y -= self.vely
+        if(rand == 4 and self.x - self.velx > 0):
+            self.x -= self.velx
 
-        
+# chaser object 
+class chaser(object):
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.velx = 3
+        self.vely = 3
 
+    def draw(self, win):
+        self.move()
+        self.rect = pygame.draw.rect(win, (255, 255, 0), (self.x, self.y, self.width, self.height))
+    
+    # Move the chaser around randomly     
+    def move(self):
+        rand = random.randint(1,4)
+        if(rand == 1 and self.vely + self.y < heightScreen - 11):
+            self.y += self.vely
+        if(rand == 2 and self.velx + self.x < widthScreen - 11):
+            self.x += self.velx
+        if(rand == 3 and self.y - self.vely > 0):
+            self.y -= self.vely
+        if(rand == 4 and self.x - self.velx > 0):
+            self.x -= self.velx
+            
 # Start state 
 run = True
 
 # Instaniate player(Chaser)
-chaser = player(20, 20, 10, 10, widthScreen)
+chaser1 = chaser(450, 450, 10, 10)
 
 # Instaniate player(Runner)
-runner = player(40, 40, 10, 10, 460)
+runner = player(40, 40, 10, 10)
 
 # Event loop to track game 
 while run:
@@ -62,22 +86,15 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    # List of keys
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT] and chaser.x > chaser.vel:
-        chaser.x -= chaser.vel
-    if keys[pygame.K_RIGHT] and chaser.x < (widthScreen - chaser.width - chaser.vel):
-        chaser.x += chaser.vel
-    if keys[pygame.K_UP] and chaser.y > chaser.vel:
-        chaser.y -= chaser.vel
-    if keys[pygame.K_DOWN] and chaser.y < (heightScreen - chaser.width - chaser.vel):
-        chaser.y += chaser.vel
-
     # Fill screen in black  
     win.fill((0,0,0))
     # Draw rect
-    pygame.draw.rect(win, (255, 0, 0), (chaser.x, chaser.y, chaser.width, chaser.height))
+    chaser1.draw(win)
     runner.draw(win)
+
+    if chaser1.rect.colliderect(runner):
+        run = False
+
     pygame.display.update()
 
 #End 
