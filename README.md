@@ -9,3 +9,4 @@ FE -> Fix Error + changes
 FU -> Feature Update + changes
 GU -> General Update + changes
 FF -> Feature Fix + changes
+NFA -> New File Added + changes
