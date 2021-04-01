@@ -24,8 +24,8 @@ class player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.velx = 3
-        self.vely = 3
+        self.velx = 5
+        self.vely = 5
 
     def draw(self, win):
         self.move()
@@ -50,8 +50,8 @@ class chaser(object):
         self.y = y
         self.width = width
         self.height = height
-        self.velx = 3
-        self.vely = 3
+        self.velx = 5
+        self.vely = 5
 
     def draw(self, win):
         self.move()
