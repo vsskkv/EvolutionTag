@@ -12,7 +12,7 @@ pygame.init()
 widthScreen = 500
 heightScreen = 500
 win = pygame.display.set_mode((heightScreen, widthScreen))
-pygame.display.set_caption("First game")
+pygame.display.set_caption("Final Year Project")
 
 # Clock
 clock = pygame.time.Clock()
