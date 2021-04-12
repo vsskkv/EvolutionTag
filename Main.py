@@ -9,10 +9,10 @@ import pygame
 pygame.init()
 
 # Set window size + caption
-widthScreen = 500
-heightScreen = 500
+widthScreen = 200
+heightScreen = 200
 win = pygame.display.set_mode((heightScreen, widthScreen))
-pygame.display.set_caption("Final Year Project")
+pygame.display.set_caption("FYP")
 
 # Clock
 clock = pygame.time.Clock()
@@ -73,7 +73,7 @@ class chaser(object):
 run = True
 
 # Instaniate player(Chaser)
-chaser1 = chaser(450, 450, 10, 10)
+chaser1 = chaser(widthScreen - 40, heightScreen - 40, 10, 10)
 
 # Instaniate player(Runner)
 runner = player(40, 40, 10, 10)
