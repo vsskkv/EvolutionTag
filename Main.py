@@ -9,14 +9,17 @@ import pygame
 pygame.init()
 
 # Set window size + caption
-widthScreen = 300
-heightScreen = 300
+widthScreen = 100
+heightScreen = 100
 win = pygame.display.set_mode((heightScreen, widthScreen))
 pygame.display.set_caption("FYP")
 
 # Clock
 clock = pygame.time.Clock()
 start_ticks = pygame.time.get_ticks()
+
+# lives
+myLives = 100
 
 # player object 
 class player(object):
@@ -94,11 +97,18 @@ while run:
     runner.draw(win)
 
     seconds = (pygame.time.get_ticks() - start_ticks)/1000
-    print (seconds)
 
-    if chaser1.rect.colliderect(runner) or seconds > 100:
-        run = False
+    if (chaser1.rect.colliderect(runner) or seconds > 180) and myLives > 0:
+        print(seconds)
+        # Instaniate player(Chaser)
+        chaser1 = chaser(widthScreen - 40, heightScreen - 40, 10, 10)
+        # Instaniate player(Runner)
+        runner = player(40, 40, 10, 10)
+        # remove 1 life
+        myLives = myLives - 1
+        print(myLives)
 
+    
     pygame.display.update()
 
 #End 
