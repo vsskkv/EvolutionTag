@@ -6,17 +6,17 @@
 #Imports
 import random
 import pygame
+from pygame.constants import USEREVENT
 pygame.init()
 
 # Set window size + caption
-widthScreen = 100
-heightScreen = 100
+widthScreen = 50
+heightScreen = 50
 win = pygame.display.set_mode((heightScreen, widthScreen))
 pygame.display.set_caption("FYP")
 
-# Clock
-clock = pygame.time.Clock()
-start_ticks = pygame.time.get_ticks()
+# timer
+counter = 0
 
 # lives
 myLives = 100
@@ -96,19 +96,24 @@ while run:
     chaser1.draw(win)
     runner.draw(win)
 
-    seconds = (pygame.time.get_ticks() - start_ticks)/1000
+    # Time
+    counter = counter + 1
 
-    if (chaser1.rect.colliderect(runner) or seconds > 180) and myLives > 0:
-        print(seconds)
+    if chaser1.rect.colliderect(runner) and myLives > 0:
+        print(counter)
         # Instaniate player(Chaser)
         chaser1 = chaser(widthScreen - 40, heightScreen - 40, 10, 10)
         # Instaniate player(Runner)
         runner = player(40, 40, 10, 10)
         # remove 1 life
         myLives = myLives - 1
-        print(myLives)
+        counter = 0
+        print(myLives) #remain
+    if myLives == 0:
+        print("Over")
+        run = False
+        
 
-    
     pygame.display.update()
 
 #End 
