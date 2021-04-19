@@ -6,12 +6,12 @@
 #Imports
 import random
 import pygame
-from pygame.constants import USEREVENT
+import xlwt
 pygame.init()
 
 # Set window size + caption
-widthScreen = 50
-heightScreen = 50
+widthScreen = 300
+heightScreen = 300
 win = pygame.display.set_mode((heightScreen, widthScreen))
 pygame.display.set_caption("FYP")
 
@@ -20,6 +20,9 @@ counter = 0
 
 # lives
 myLives = 100
+
+# Arrays for counter
+listCounter = []
 
 # player object 
 class player(object):
@@ -82,9 +85,12 @@ chaser1 = chaser(widthScreen - 40, heightScreen - 40, 10, 10)
 # Instaniate player(Runner)
 runner = player(40, 40, 10, 10)
 
+book = xlwt.Workbook()
+sheet1 = book.add_sheet("Random")
+
 # Event loop to track game 
 while run:
-    pygame.time.delay(100)
+    #pygame.time.delay(100)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -107,11 +113,13 @@ while run:
         runner = player(40, 40, 10, 10)
         # remove 1 life
         myLives = myLives - 1
+        listCounter.append(counter)
         counter = 0
         print(myLives) #remain
     if myLives == 0:
         print("Over")
         run = False
+        print(listCounter)
         
 
     pygame.display.update()
