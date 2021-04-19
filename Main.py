@@ -85,8 +85,19 @@ chaser1 = chaser(widthScreen - 40, heightScreen - 40, 10, 10)
 # Instaniate player(Runner)
 runner = player(40, 40, 10, 10)
 
-book = xlwt.Workbook()
-sheet1 = book.add_sheet("Random")
+def makeExcelFile():
+    workbook = xlwt.Workbook()
+    sheet1 = workbook.add_sheet("Random", cell_overwrite_ok=True)
+    row = 2
+    sheet1.write(1, 1, "Run number")
+    sheet1.write(1, 2, "Time")
+    while(row < 100):
+        col = 0
+        sheet1.write(row, col, "col")
+        col = col + 1
+        sheet1.write(row, col, listCounter[row])
+        row = row + 1
+    workbook.save('Runs.xls')
 
 # Event loop to track game 
 while run:
@@ -117,9 +128,9 @@ while run:
         counter = 0
         print(myLives) #remain
     if myLives == 0:
-        print("Over")
+        print("Done!")
         run = False
-        print(listCounter)
+        makeExcelFile()
         
 
     pygame.display.update()
