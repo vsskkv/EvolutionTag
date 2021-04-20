@@ -9,6 +9,7 @@ import pygame
 
 # Import files
 import player
+import chaser
 import writeToExcel
 
 # Start Pygames
@@ -33,10 +34,10 @@ listCounter = []
 run = True
 
 # Instaniate player(Chaser)
-chaser1 = player.player(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen, 0, 255, 0)
+chaser1 = chaser.player(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
 
 # Instaniate player(Runner)
-runner = player.player(40, 40, 10, 10, heightScreen, widthScreen, 255, 0, 0)
+runner = player.player(40, 40, 10, 10, heightScreen, widthScreen)
 
 
 
@@ -59,10 +60,10 @@ while run:
     if chaser1.rect.colliderect(runner) and myLives > 0:
         print(counter)
         # Instaniate player(Chaser)
-        chaser1 = player.player(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen, 0, 255, 0)
+        chaser1 = chaser.player(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
 
         # Instaniate player(Runner)
-        runner = player.player(40, 40, 10, 10, heightScreen, widthScreen, 255, 0, 0)
+        runner = player.player(40, 40, 10, 10, heightScreen, widthScreen)
         # remove 1 life
         myLives = myLives - 1
         # add time to list

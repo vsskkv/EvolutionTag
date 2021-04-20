@@ -9,7 +9,7 @@ import pygame
 
 # player object
 class player(object):
-    def __init__(self, x, y, width, height, heightScreen, widthScreen, red, blue, green):
+    def __init__(self, x, y, width, height, heightScreen, widthScreen):
         self.x = x
         self.y = y
         self.width = width
@@ -18,13 +18,10 @@ class player(object):
         self.vely = 5
         self.heightScreen = heightScreen
         self.widthScreen = widthScreen
-        self.red = red
-        self.blue = blue
-        self.green = green
 
     def draw(self, win):
         self.move()
-        self.rect = pygame.draw.rect(win, (self.red, self.blue, self.green), (self.x, self.y, self.width, self.height))
+        self.rect = pygame.draw.rect(win, (0, 255, 0), (self.x, self.y, self.width, self.height))
     
     # Move the chaser around randomly     
     def move(self):
