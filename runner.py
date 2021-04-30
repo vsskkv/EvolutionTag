@@ -1,6 +1,6 @@
 #Date Created: 12/11/2020
 #Author: Vikram Singh Kainth
-#Title: Main file
+#Title: runner file
 #About: To be the main file where the program will initially run from
 
 # Imports
@@ -8,7 +8,7 @@ import random
 import pygame
 
 # player object
-class player(object):
+class runnerPlayer(object):
     def __init__(self, x, y, width, height, heightScreen, widthScreen):
         self.x = x
         self.y = y
@@ -34,3 +34,10 @@ class player(object):
             self.y -= self.vely
         if(rand == 4 and self.x - self.velx > 0):
             self.x -= self.velx
+    
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+        

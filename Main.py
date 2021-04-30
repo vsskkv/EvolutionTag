@@ -8,7 +8,7 @@ import random
 import pygame
 
 # Import files
-import player
+import runner
 import chaser
 import writeToExcel
 
@@ -34,14 +34,13 @@ listCounter = []
 run = True
 
 # Instaniate player(Chaser)
-chaser1 = chaser.player(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
-
+# Starts at top left
+chaser1 = chaser.chaserPlayer(40, 40, 10, 10, heightScreen, widthScreen)
+# Start from bottom right 
 # Instaniate player(Runner)
-runner = player.player(40, 40, 10, 10, heightScreen, widthScreen)
+runner1 = runner.runnerPlayer(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
 
-
-
-# Event loop to track game 
+# Main event loop to track game 
 while run:
 
     for event in pygame.event.get():
@@ -52,18 +51,27 @@ while run:
     win.fill((0,0,0))
     # Draw rect
     chaser1.draw(win)
-    runner.draw(win)
+    runner1.draw(win)
+
+    # First pathfinding algorithum
+    """ def SmartRandMove():
+        if runner1.getX() < chaser1.x:
+            chaser1.x -= chaser1.x
+        else:
+            chaser1.x += chaser1.x
+        if runner1.getY() < chaser1.y:
+            chaser1.y -= chaser1.y
+        else:
+            chaser1.x += chaser1.y """
 
     # Time
     counter = counter + 1
 
-    if chaser1.rect.colliderect(runner) and myLives > 0:
-        print(counter)
+    if chaser1.rect.colliderect(runner1) and myLives > 0:
         # Instaniate player(Chaser)
-        chaser1 = chaser.player(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
-
+        chaser1 = chaser.chaserPlayer(40, 40, 10, 10, heightScreen, widthScreen)
         # Instaniate player(Runner)
-        runner = player.player(40, 40, 10, 10, heightScreen, widthScreen)
+        runner1 = runner.runnerPlayer(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
         # remove 1 life
         myLives = myLives - 1
         # add time to list
