@@ -1,90 +1,105 @@
-#Date Created: 12/11/2020
-#Author: Vikram Singh Kainth
-#Title: Main file
-#About: To be the main file where the program will initially run from
-
-# Imports classes
-import random
 import pygame
 
-# Import files
-import runner
-import chaser
-import writeToExcel
+from config import *
+from player import *
+from strategy import *
+from time import sleep
+from pygame.constants import K_a, K_d, K_s, K_w
 
-# Start Pygames
-pygame.init()
+class Window():
 
-# Set window size + caption
-widthScreen = 500
-heightScreen = 500
-win = pygame.display.set_mode((heightScreen, widthScreen))
-pygame.display.set_caption("FYP")
+    chaser = None
+    player = None
 
-# Timer
-counter = 0
+    delay_counter = 0
+    drawing = False
 
-# lives
-myLives = 100
+    def __init__(self, width, height, title = "FYP"):
+        self.title = title
+        self.width = width
+        self.height = height
+        pygame.init()
+        self.win = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption(self.title)
+        self.player = Player(self.win, 15*CUBE_SIZE, 15*CUBE_SIZE, CUBE_SIZE, CHASER_COLOR)
+        self.chaser = Player(self.win, 2*CUBE_SIZE, 2*CUBE_SIZE, CUBE_SIZE, PLAYER_COLOR)
+        # here you can change the alghoritm (change name only)
+        self.chaser.strategy = Astar(self.win, self.chaser, self.player)
+        #self.chaser.strategy = None
+        #                      ~~~
+        self.chaser.retarget()
 
-# Arrays for counter
-listCounter = []
-            
-# Start state 
-run = True
+    def open(self):
+        run = True
+        while run:
+            pygame.time.Clock().tick(180)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                if  not PLAYER_SPAWNS_RANDOMLY:
+                    self.on_keys(event)
+                    self.on_mouse(event)
 
-# Instaniate player(Chaser)
-# Starts at top left
-chaser1 = chaser.chaserPlayer(40, 40, 10, 10, heightScreen, widthScreen)
-# Start from bottom right 
-# Instaniate player(Runner)
-runner1 = runner.runnerPlayer(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
+            if PLAYER_SPAWNS_RANDOMLY:  
+                if self.player.move_to_random_position():
+                    self.chaser.retarget()
+                
+            if PLAYER_MOVES_RANDOMLY:
+                if self.player.move_randomly():
+                    self.chaser.retarget()
 
-# Main event loop to track game 
-while run:
+            if CHASER_MOVES_RANDOMLY:
+                if self.chaser.move_randomly():
+                    self.chaser.retarget()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+            if CHASER_SPAWNS_RANDOMLY:
+                if self.chaser.move_to_random_position():
+                    self.chaser.retarget()
+            self.render()
 
-    # Fill screen in black  
-    win.fill((0,0,0))
-    # Draw rect
-    chaser1.draw(win)
-    runner1.draw(win)
+    def on_keys(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == K_d:
+                self.player.move_right()
+                self.chaser.retarget()
+            elif event.key == K_a:
+                self.player.move_left()
+                self.chaser.retarget()
+            elif event.key == K_s:
+                self.player.move_down()
+                self.chaser.retarget()
+            elif event.key == K_w:
+                self.player.move_up()
+                self.chaser.retarget()
 
-    # First pathfinding algorithum
-    """ def SmartRandMove():
-        if runner1.getX() < chaser1.x:
-            chaser1.x -= chaser1.x
-        else:
-            chaser1.x += chaser1.x
-        if runner1.getY() < chaser1.y:
-            chaser1.y -= chaser1.y
-        else:
-            chaser1.x += chaser1.y """
+    def on_mouse(self, event):
+        LEFT = 1
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == LEFT:
+                self.drawing = True
+        
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == LEFT:
+                    self.drawing = False
+                
+        if event.type == pygame.MOUSEMOTION and self.drawing:
+            x = event.pos[0] // self.chaser.size
+            y = event.pos[1] // self.chaser.size
+            self.chaser.strategy.obstacle[(x * self.chaser.size, y * self.chaser.size)] = 0
 
-    # Time
-    counter = counter + 1
+    def check_collision(self):
+        chaser_rect = pygame.Rect(self.chaser.pos_x, self.chaser.pos_y, self.chaser.size, self.chaser.size)
+        player_rect = pygame.Rect(self.player.pos_x, self.player.pos_y, self.player.size, self.player.size)
+        if chaser_rect.colliderect(player_rect):
+            mgr.capture()
+            self.player.move_to_random_position(True)
+    def render(self):
+        self.win.fill((0, 0, 0))
+        self.chaser.render(SHOW_SHORTEST_PATH)
+        self.player.render()
+        if self.chaser.strategy == None:
+            self.check_collision()
+        pygame.display.update()
 
-    if chaser1.rect.colliderect(runner1) and myLives > 0:
-        # Instaniate player(Chaser)
-        chaser1 = chaser.chaserPlayer(40, 40, 10, 10, heightScreen, widthScreen)
-        # Instaniate player(Runner)
-        runner1 = runner.runnerPlayer(widthScreen - 40, heightScreen - 40, 10, 10, heightScreen, widthScreen)
-        # remove 1 life
-        myLives = myLives - 1
-        # add time to list
-        listCounter.append(counter)
-        counter = 0
-        print(myLives) #remain
-    if myLives == 0:
-        print("Done!")
-        run = False
-        # make excel file
-        writeToExcel.makeExcelFile(listCounter)
-
-    pygame.display.update()
-
-#End 
-pygame.quit()
+if __name__ == "__main__":
+    Window(500, 500).open()
