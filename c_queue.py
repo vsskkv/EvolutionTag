@@ -1,3 +1,7 @@
+# Author:
+# Date:
+# Title:
+# Descirption: 
 import heapq
 
 # The standart class for PriorityQueue (in module queue), has bad implementation for put() function, like: put(priority1, priority2 ...), and then sort it.

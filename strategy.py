@@ -1,3 +1,7 @@
+# Author:
+# Date:
+# Title:
+# Descirption: 
 import pygame
 
 from config import *

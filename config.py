@@ -1,3 +1,9 @@
+# Author: Vikram singh kainth  
+# Date: 30/03/2021
+# Title: config.py
+# Descirption: config the file to the user usecase 
+
+#import excel file
 import excel
 # !!! If you want to change the strategy (alg), open main.py, and look at 27th line !!!
 
@@ -8,6 +14,7 @@ DELAY = 0
 VELOCITY  = 1 
 CUBE_SIZE = 20
  
+# 255 bit colour
 PLAYER_COLOR   = (255, 0, 0)
 CHASER_COLOR   = (0, 255, 0)
 PATH_COLOR     = (255, 255, 0)
@@ -26,5 +33,6 @@ SHOW_SHORTEST_PATH = True
 
 mgr = excel.Manager() 
 
+# incase user runs this file
 if __name__ == "__main__":
     print("Try main.py...")
